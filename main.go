@@ -29,7 +29,7 @@ func main() {
 	dbPassword := os.Getenv("password")
 	dbName := os.Getenv("name")
 
-	psqlconn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, dbUsername, dbPassword, dbName)
+	psqlconn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=require", host, port, dbUsername, dbPassword, dbName)
 
 	conn, err := sql.Open("postgres", psqlconn)
 	if err != nil {
