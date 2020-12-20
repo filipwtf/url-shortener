@@ -1,0 +1,15 @@
+### Get all urls
+GET http://localhost:8080/url/all
+Accept: application/json
+
+### Create a long url
+POST http://localhost:8080/url/make
+Content-Type: application/json
+
+{
+"original": "https://example.com"
+}
+
+### Get a long url
+GET http://localhost:8080/8776276e-c4b2-4644-8927-d42f8be9a093
+Accept: application/json
