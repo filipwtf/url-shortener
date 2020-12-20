@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/fatih/color"
 	"github.com/filipwtf/url-longer/postgres"
@@ -34,7 +35,7 @@ func main() {
 	log.Println("App is starting 😀")
 	color.Unset()
 	srv := server.NewServer(db, *dev)
-	err = http.ListenAndServe(":8080", srv)
+	err = http.ListenAndServe(fmt.Sprintf(":%s", os.Getenv("PORT")), srv)
 	if err != nil {
 		color.Set(color.FgRed)
 		log.Fatalf("error starting server %s\n", err)
