@@ -66,9 +66,9 @@ func (s *Server) CreateLongerURL() http.HandlerFunc {
 			HandleError(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-
+		full := fmt.Sprintf("https://000000000000000000000000000000000000000000000000000000000000000.000000000000000000000000000000000000000000000000000000000000000.xyz/%s", u.ID)
 		w.Header().Set("content-type", "application/json")
-		if err := json.NewEncoder(w).Encode(u); err != nil {
+		if err := json.NewEncoder(w).Encode(full); err != nil {
 			HandleError(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
