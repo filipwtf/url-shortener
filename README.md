@@ -1,8 +1,11 @@
 # url-shortener
+
 Another url shortener
 
 ## Usage
+
 Uses postgressql for the database
+
 ```
 go run main.go -help
   -dev
@@ -20,10 +23,12 @@ go run main.go -help
 ```
 
 ## Running
+
 ```bash
 git clone https://github.com/filipwtf/url-shortener.git
 cd /url-shortener
 go build
 ./main
 ```
+
 Pass flags if needed

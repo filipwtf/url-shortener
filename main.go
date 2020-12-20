@@ -2,11 +2,11 @@ package main
 
 import (
 	"database/sql"
-	"flag"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/fatih/color"
 	"github.com/filipwtf/url-longer/postgres"
@@ -16,15 +16,20 @@ import (
 
 func main() {
 	var err error
-	dev := flag.Bool("dev", true, "hides dev routes")
-	host := flag.String("host", "localhost", "speicify postgres host")
-	port := flag.Int("port", 5432, "specify postgres port")
-	dbUsername := flag.String("username", "postgres", "db user username")
-	dbPassword := flag.String("password", "postgres", "db user password")
-	dbName := flag.String("name", "longer", "database name")
-	flag.Parse()
+	dev, err := strconv.ParseBool(os.Getenv("dev"))
+	if err != nil {
+		log.Fatal(err)
+	}
+	host := os.Getenv("host")
+	port, err := strconv.ParseInt(os.Getenv("port"), 10, 32)
+	if err != nil {
+		log.Fatal(err)
+	}
+	dbUsername := os.Getenv("username")
+	dbPassword := os.Getenv("password")
+	dbName := os.Getenv("name")
 
-	psqlconn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", *host, *port, *dbUsername, *dbPassword, *dbName)
+	psqlconn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, dbUsername, dbPassword, dbName)
 
 	conn, err := sql.Open("postgres", psqlconn)
 	if err != nil {
@@ -34,7 +39,7 @@ func main() {
 	color.Set(color.FgGreen)
 	log.Println("App is starting 😀")
 	color.Unset()
-	srv := server.NewServer(db, *dev)
+	srv := server.NewServer(db, dev)
 	err = http.ListenAndServe(fmt.Sprintf(":%s", os.Getenv("PORT")), srv)
 	if err != nil {
 		color.Set(color.FgRed)
